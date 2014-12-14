@@ -388,6 +388,58 @@ namespace UniverseFramework.Core.Extensions.Converters
             return str;
         }
 
+        public static Nullable<T> ToEnumVal<T>(this object value) where T : struct
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var valueChar = value.ToCharVal();
+            var valueInt = value.ToIntegerVal();
+
+            if (valueChar == null && valueInt == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                Array enumValues = Enum.GetValues(typeof(T));
+
+                foreach (object enumValue in enumValues)
+                {
+                    if (valueChar.HasValue && Convert.ToChar(enumValue).Equals(valueChar.Value))
+                    {
+                        return (T)enumValue;
+
+                        
+                    }
+
+                    if (valueInt.HasValue && Convert.ToInt32(enumValue).Equals(valueInt.Value))
+                    {
+                        return (T)enumValue;
+                    }
+                }
+            }
+            catch (ArgumentNullException)
+            {
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
+
+        public static T ToEnumVal<T>(this object value, T defaultValue) where T : struct
+        {
+            return value.ToEnumVal<T>() ?? defaultValue;
+        }
+
         /// <summary>
         /// Convert value Md5 (MD5CryptoServiceProvider)
         /// </summary>
