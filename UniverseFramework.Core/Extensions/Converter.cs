@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UniverseFramework.Core.Extensions
+namespace UniverseFramework.Core.Extensions.Converters
 {
     [DebuggerStepThrough]
     public static class Converter
